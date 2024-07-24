@@ -1,11 +1,10 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
-    // "strict": true,
+    // "strict": true, // Uncomment this to enable strict type-checking
     "resolveJsonModule": true,
     "noImplicitOverride": true,
     "allowSyntheticDefaultImports": true,
@@ -28,5 +27,13 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "include": [
+    "src/**/*.ts" // Includes all TypeScript files in src directory
+  ],
+  "exclude": [
+    "node_modules", // Excludes node_modules folder
+    "dist", // Excludes dist folder
+    "e2e" // Excludes end-to-end test folder
+  ]
 }

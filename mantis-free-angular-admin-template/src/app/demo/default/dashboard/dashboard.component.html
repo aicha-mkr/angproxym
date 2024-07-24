@@ -1,4 +1,5 @@
 <div class="row">
+
   @for (analytic of AnalyticEcommerce; track analytic) {
     <div class="col-md-6 col-xl-3">
       <app-card [showHeader]="false" blockClass="dashboard-card">
@@ -25,45 +26,7 @@
     <app-income-overview-chart />
   </div>
 
-  <div class="col-md-12 col-xl-8">
-    <h5 class="mb-3">Recent Orders</h5>
-    <div class="card tbl-card">
-      <div class="table-responsive">
-        <table class="table table-hover mb-0">
-          <thead>
-            <tr>
-              <th>TRACKING NO.</th>
-              <th>PRODUCT NAME</th>
-              <th>STATUS</th>
-              <th class="text-end">TOTAL ORDER</th>
-              <th class="text-end">TOTAL AMOUNT</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (order of recentOrder; track order) {
-              <tr>
-                <td>
-                  <a href="javascript:" class="text-muted">{{ order.id }}</a>
-                </td>
-                <td>{{ order.name }}</td>
-                <td>
-                  <span class="d-block">
-                    <i class="badge-circle {{ order.status_type }} f-10 m-r-5"></i>
-                    {{ order.status }}
-                  </span>
-                </td>
-                <td class="text-end">{{ order.quantity }}</td>
-                <td class="text-end">{{ order.amount }}</td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-12 col-xl-4">
-    <app-analytics-chart />
-  </div>
+  
 
   <div class="col-md-12 col-xl-8">
     <app-sales-report-chart />
@@ -91,28 +54,6 @@
             </div>
           </a>
         }
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-body">
-        <div class="row justify-content-between">
-          <div class="col-auto">
-            <h5>Help & Support Chat</h5>
-            <p class="mb-3">Typical replay within 5 min</p>
-          </div>
-          <div class="col-auto">
-            <div class="user-group mb-3">
-              <img src="assets/images/user/avatar-1.jpg" alt="image" />
-              <img src="assets/images/user/avatar-2.jpg" alt="image" />
-              <img src="assets/images/user/avatar-3.jpg" alt="image" />
-            </div>
-          </div>
-        </div>
-        <div class="d-grid">
-          <div class="btn btn-primary">Need Help?</div>
-        </div>
-      </div>
-    </div>
-  </div>
+   
   <!-- [ sample-page ] end -->
 </div>
