@@ -9,7 +9,7 @@ class ValomniaService
     public function getData($userId)
     {
         // hedha Exemple mta3 lappel API. juste badel l'URL réelle w les paramètres nécessaires.
-        $response = Http::get('https://api.valomnia.com/v1/activities', [
+        $response = Http::get('developers.valomnia.com/', [
             'user_id' => $userId,
         ]);
 

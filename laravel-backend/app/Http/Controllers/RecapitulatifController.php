@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Recapitulatif;
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Recapitulatif;
 use App\Services\ValomniaService;
-use App\Notifications\RecapSentNotification;
+use Carbon\Carbon;
 
 class RecapitulatifController extends Controller
 {
@@ -17,41 +16,27 @@ class RecapitulatifController extends Controller
         $this->valomniaService = $valomniaService;
     }
 
-    public function index()
+    // Génération des récapitulatifs
+    public function generateRecap()
     {
-        // Logique pour obtenir les récapitulatifs
-        $recapitulatifs = Recapitulatif::all();
-        return response()->json($recapitulatifs);
-    }
+        $users = User::all(); // Assuming User model exists
 
-    public function generateRecap($userId)
-    {
-        // Logique pour générer un récapitulatif pour un utilisateur donné
-        // Appel à l'API externe Valomnia, génération de récapitulatif, etc.
-        $recap = // logique de génération
-        return response()->json($recap);
-    }
-
-    public function generateRecap(int $userId)
-    {
-        $user = User::findOrFail($userId);
-        $data = $this->valomniaService->getData($userId);
-
-        if ($data) {
-            $recapitulatif = Recapitulatif::create([
-                'date' => now(),
-                'ventes_realisees' => $data['ventes_realisees'],
-                'clients_visites' => $data['clients_visites'],
-                'articles_vendus' => $data['articles_vendus'],
-                'user_id' => $user->id,
-            ]);
-
-            // Envoyer la notification
-            $user->notify(new RecapSentNotification());
-
-            return response()->json($recapitulatif);
+        foreach ($users as $user) {
+            $data = $this->valomniaService->fetchData($user->id);
+            
+            $recap = new Recapitulatif();
+            $recap->user_id = $user->id;
+            $recap->date = Carbon::now();
+            $recap->total_orders = $data['total_orders'];
+            $recap->total_revenue = $data['total_revenue'];
+            $recap->average_sales = $data['average_sales'];
+            $recap->total_quantities = $data['total_quantities'];
+            $recap->total_clients = $data['total_clients'];
+            $recap->save();
         }
 
-        return response()->json(['error' => 'Failed to fetch data from external API'], 500);
+        return response()->json(['message' => 'Récapitulatifs générés avec succès']);
     }
+
+    
 }
