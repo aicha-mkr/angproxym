@@ -2,19 +2,20 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Les attributs qui sont attribuables en masse.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $fillable = [
         'name',
@@ -22,10 +23,24 @@ class User extends Authenticatable
         'password',
     ];
 
+    
+    protected $fillable = [
+        'name', 'email', 'password', 'recap_preferences'
+    ];
+    
+    
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'recap_preferences' => 'array',
+    ];
+    
+
+
+
     /**
-     * The attributes that should be hidden for serialization.
+     * Les attributs cachés pour les tableaux.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $hidden = [
         'password',
@@ -33,15 +48,21 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * Les attributs à convertir en types de données natifs.
      *
-     * @return array<string, string>
+     * @var array
      */
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    /**
+     * Définir la relation avec le modèle Recapitulatif.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function recapitulatifs(): HasMany
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasMany(Recapitulatif::class);
     }
 }
