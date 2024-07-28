@@ -38,7 +38,7 @@ export class DefaultComponent {
 
   AnalyticEcommerce = [
     {
-      title: 'Total Page Views',
+      title: 'CHIFFRES D’AFFAIRES',
       amount: '4,42,236',
       background: 'bg-light-primary ',
       border: 'border-primary',
@@ -48,7 +48,7 @@ export class DefaultComponent {
       number: '35,000'
     },
     {
-      title: 'Total Users',
+      title: 'NOMBRE D’UTILISATEURS',
       amount: '78,250',
       background: 'bg-light-primary ',
       border: 'border-primary',
@@ -58,7 +58,7 @@ export class DefaultComponent {
       number: '8,900'
     },
     {
-      title: 'Total Order',
+      title: 'MOYENNE DES VENTES',
       amount: '18,800',
       background: 'bg-light-warning ',
       border: 'border-warning',
@@ -68,7 +68,7 @@ export class DefaultComponent {
       number: '1,943'
     },
     {
-      title: 'Total Sales',
+      title: 'NOMBRE DE COMMANDES',
       amount: '$35,078',
       background: 'bg-light-warning ',
       border: 'border-warning',
