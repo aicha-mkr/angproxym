@@ -15,4 +15,3 @@ import { SharedModule } from './theme/shared/shared.module';
   bootstrap: [AppComponent]
 })
 export class AppModule {}
-cd
