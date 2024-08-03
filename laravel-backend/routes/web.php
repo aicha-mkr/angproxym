@@ -6,5 +6,6 @@ use App\Http\Controllers\RecapitulatifController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/generate-recap/{userId}',
- [RecapitulatifController::class, 'generateRecap']);
+
+ Route::post('/recapitulatifs/generate', [RecapitulatifController::class, 'generateRecapitulatifs']);
+

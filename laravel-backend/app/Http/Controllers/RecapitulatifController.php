@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Recapitulatif;
 use App\Services\ValomniaService;
-use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class RecapitulatifController extends Controller
 {
@@ -16,27 +14,25 @@ class RecapitulatifController extends Controller
         $this->valomniaService = $valomniaService;
     }
 
-    // Génération des récapitulatifs
-    public function generateRecap()
+    public function generateRecapitulatifs()
     {
-        $users = User::all(); // Assuming User model exists
+        $kpis = $this->valomniaService->calculateKPI();
 
-        foreach ($users as $user) {
-            $data = $this->valomniaService->fetchData($user->id);
-            
-            $recap = new Recapitulatif();
-            $recap->user_id = $user->id;
-            $recap->date = Carbon::now();
-            $recap->total_orders = $data['total_orders'];
-            $recap->total_revenue = $data['total_revenue'];
-            $recap->average_sales = $data['average_sales'];
-            $recap->total_quantities = $data['total_quantities'];
-            $recap->total_clients = $data['total_clients'];
-            $recap->save();
+        if (!$kpis) {
+            return response()->json(['error' => 'Failed to fetch data from Valomnia API'], 500);
         }
 
-        return response()->json(['message' => 'Récapitulatifs générés avec succès']);
-    }
+        // Logique pour enregistrer les récapitulatifs dans la base de données
+        // Exemple simple de stockage, à adapter selon ton modèle
+        $recap = new Recapitulatif();
+        $recap->user_id = auth()->user()->id;
+        $recap->date = now();
+        $recap->total_orders = $kpis['totalOrders'];
+        $recap->total_revenue = $kpis['totalRevenue'];
+        $recap->average_sales = $kpis['averageSales'];
+        $recap->total_clients = $kpis['totalEmployees'];
+        $recap->save();
 
-    
+        return response()->json(['message' => 'Recapitulative generated successfully']);
+    }
 }
