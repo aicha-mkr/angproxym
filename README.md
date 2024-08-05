@@ -1,4 +1,5 @@
 Valomnia Weekly Business Activity Summary
+
 About 📊
 This project automates the generation and delivery of weekly business activity summaries using Valomnia's API. It provides businesses with a seamless way to receive insights on key performance indicators (KPIs) such as total revenue, total orders, total employees, and average sales. The solution is built using Angular for the frontend and Laravel for the backend, ensuring a robust and scalable application.
 
