@@ -2,7 +2,11 @@
 
 .auth-main {
   position: relative;
-
+.logo-image {
+    width: 400px; 
+    height: auto; 
+  }
+  
   .auth-wrapper {
     height: 100%;
     width: 100%;
@@ -79,7 +83,7 @@
       }
 
       img + span {
-        padding-left: 15px;
+        padding-left: 10px;
       }
 
       h5 {

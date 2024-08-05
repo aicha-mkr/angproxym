@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Recapitulatif; // Importation du modèle Recapitulatif
 use App\Services\ValomniaService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RecapitulatifController extends Controller
 {
@@ -16,21 +18,27 @@ class RecapitulatifController extends Controller
 
     public function generateRecapitulatifs()
     {
+        // Assurez-vous que l'utilisateur est authentifié
+        if (!Auth::check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        // Appel du service pour obtenir les KPIs
         $kpis = $this->valomniaService->calculateKPI();
 
+        // Vérifiez si les KPIs sont renvoyés correctement
         if (!$kpis) {
             return response()->json(['error' => 'Failed to fetch data from Valomnia API'], 500);
         }
 
-        // Logique pour enregistrer les récapitulatifs dans la base de données
-        // Exemple simple de stockage, à adapter selon ton modèle
+        // Enregistrez les récapitulatifs dans la base de données
         $recap = new Recapitulatif();
-        $recap->user_id = auth()->user()->id;
+        $recap->user_id = Auth::id(); // Utilisez Auth::id() pour obtenir l'ID de l'utilisateur authentifié
         $recap->date = now();
-        $recap->total_orders = $kpis['totalOrders'];
-        $recap->total_revenue = $kpis['totalRevenue'];
-        $recap->average_sales = $kpis['averageSales'];
-        $recap->total_clients = $kpis['totalEmployees'];
+        $recap->total_orders = $kpis['totalOrders'] ?? 0; // Assurez-vous que les clés existent dans $kpis
+        $recap->total_revenue = $kpis['totalRevenue'] ?? 0;
+        $recap->average_sales = $kpis['averageSales'] ?? 0;
+        $recap->total_clients = $kpis['totalEmployees'] ?? 0;
         $recap->save();
 
         return response()->json(['message' => 'Recapitulative generated successfully']);
