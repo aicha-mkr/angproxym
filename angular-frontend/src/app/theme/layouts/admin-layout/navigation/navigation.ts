@@ -33,7 +33,17 @@ export const NavigationItems: NavigationItem[] = [
         url: '/dashboard/default',
         icon: 'dashboard',
         breadcrumbs: false
+      },
+      {
+        id: 'login',
+        title: 'Login',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/login',
+        icon: 'login',
+        breadcrumbs: false
       }
+      
     ]
   }, 
 ];

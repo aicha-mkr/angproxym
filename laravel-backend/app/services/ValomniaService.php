@@ -47,13 +47,19 @@ class ValomniaService
         $employees = $this->getEmployees();
 
         if (!$operations || !$employees) {
-            return null;
+            return [
+                'totalRevenue' => 0,
+                'totalOrders' => 0,
+                'totalEmployees' => 0,
+                'averageSales' => 0,
+            ];
         }
 
-        $totalRevenue = array_sum(array_column($operations, 'totalDiscounted'));
-        $totalOrders = count(array_column($operations, 'reference'));
-        $totalEmployees = count($employees);
-        $averageSales = $totalRevenue / ($totalOrders ?: 1);
+        // Calcul des KPI selon sansa "aicha edit"
+        $totalRevenue = array_sum(array_column($operations['data'], 'totalDiscounted'));
+        $totalOrders = count(array_column($operations['data'], 'reference'));
+        $totalEmployees = count($employees['data']);
+        $averageSales = $totalOrders ? $totalRevenue / $totalOrders : 0;
 
         return [
             'totalRevenue' => $totalRevenue,

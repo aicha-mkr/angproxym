@@ -72,19 +72,7 @@ export class NavRightComponent {
       icon: 'edit',
       title: 'Edit Profile'
     },
-    {
-      icon: 'user',
-      title: 'View Profile'
-    },
-    {
-      icon: 'profile',
-      title: 'Social Profile'
-    },
-    {
-      icon: 'wallet',
-      title: 'Billing'
-    }
-  ];
+    ];
 
   setting = [
     {
@@ -94,14 +82,6 @@ export class NavRightComponent {
     {
       icon: 'user',
       title: 'Account Settings'
-    },
-    {
-      icon: 'lock',
-      title: 'Privacy Center'
-    },
-    {
-      icon: 'comment',
-      title: 'Feedback'
     },
     {
       icon: 'unordered-list',

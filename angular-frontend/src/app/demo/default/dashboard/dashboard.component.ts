@@ -1,16 +1,11 @@
-// angular import
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-// project import
-import tableData from 'src/fake-data/default-data.json';
+import { RecapitulatifsService } from 'src/app/services/recapitulatifs.service'; // Assurez-vous du chemin correct
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { MonthlyBarChartComponent } from './monthly-bar-chart/monthly-bar-chart.component';
 import { IncomeOverviewChartComponent } from './income-overview-chart/income-overview-chart.component';
 import { AnalyticsChartComponent } from './analytics-chart/analytics-chart.component';
 import { SalesReportChartComponent } from './sales-report-chart/sales-report-chart.component';
-
-// icons
 import { IconService } from '@ant-design/icons-angular';
 import { FallOutline, GiftOutline, MessageOutline, RiseOutline, SettingOutline } from '@ant-design/icons-angular/icons';
 
@@ -28,54 +23,53 @@ import { FallOutline, GiftOutline, MessageOutline, RiseOutline, SettingOutline }
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DefaultComponent {
-  // constructor
-  constructor(private iconService: IconService) {
+export class DefaultComponent implements OnInit {
+  // Injecter le service
+  constructor(private recapitulatifsService: RecapitulatifsService, private iconService: IconService) {
     this.iconService.addIcon(...[RiseOutline, FallOutline, SettingOutline, GiftOutline, MessageOutline]);
   }
 
-  recentOrder = tableData;
-
+  // Définir les variables
   AnalyticEcommerce = [
     {
       title: 'CHIFFRES D’AFFAIRES',
-      amount: '4,42,236',
+      amount: '0', // Initialiser avec des valeurs par défaut
       background: 'bg-light-primary ',
       border: 'border-primary',
       icon: 'rise',
-      percentage: '59.3%',
+      percentage: '0%',
       color: 'text-primary',
-      number: '35,000'
+      number: '0'
     },
     {
       title: 'NOMBRE D’UTILISATEURS',
-      amount: '78,250',
+      amount: '0',
       background: 'bg-light-primary ',
       border: 'border-primary',
       icon: 'rise',
-      percentage: '70.5%',
+      percentage: '0%',
       color: 'text-primary',
-      number: '8,900'
+      number: '0'
     },
     {
       title: 'MOYENNE DES VENTES',
-      amount: '18,800',
+      amount: '0',
       background: 'bg-light-warning ',
       border: 'border-warning',
       icon: 'fall',
-      percentage: '27.4%',
+      percentage: '0%',
       color: 'text-warning',
-      number: '1,943'
+      number: '0'
     },
     {
       title: 'NOMBRE DE COMMANDES',
-      amount: '$35,078',
+      amount: '0',
       background: 'bg-light-warning ',
       border: 'border-warning',
       icon: 'fall',
-      percentage: '27.4%',
+      percentage: '0%',
       color: 'text-warning',
-      number: '$20,395'
+      number: '0'
     }
   ];
 
@@ -105,4 +99,59 @@ export class DefaultComponent {
       percentage: '16%'
     }
   ];
+
+  ngOnInit(): void {
+    this.loadKPIData();
+  }
+
+  loadKPIData(): void {
+    this.recapitulatifsService.getKPIData().subscribe(data => {
+      this.AnalyticEcommerce = [
+        {
+          title: 'CHIFFRES D’AFFAIRES',
+          amount: data.totalRevenue.toLocaleString(),
+          background: 'bg-light-primary ',
+          border: 'border-primary',
+          icon: 'rise',
+          percentage: '59.3%', // mise à jour en fonction des données baed
+          color: 'text-primary',
+          number: data.totalRevenue.toLocaleString()
+        },
+        {
+          title: 'NOMBRE D’UTILISATEURS',
+          amount: data.totalEmployees.toLocaleString(),
+          background: 'bg-light-primary ',
+          border: 'border-primary',
+          icon: 'rise',
+          percentage: '70.5%', // mise à jour en fonction des données baed
+          color: 'text-primary',
+          number: data.totalEmployees.toLocaleString()
+        },
+        {
+          title: 'MOYENNE DES VENTES',
+          amount: data.averageSales.toLocaleString(),
+          background: 'bg-light-warning ',
+          border: 'border-warning',
+          icon: 'fall',
+          percentage: '27.4%', // mise à jour en fonction des données baed
+          color: 'text-warning',
+          number: data.averageSales.toLocaleString()
+        },
+        {
+          title: 'NOMBRE DE COMMANDES',
+          amount: data.totalOrders.toLocaleString(),
+          background: 'bg-light-warning ',
+          border: 'border-warning',
+          icon: 'fall',
+          percentage: '27.4%', // mise à jour en fonction des données baed
+          color: 'text-warning',
+          number: data.totalOrders.toLocaleString()
+        }
+      ];
+    });
+  }
+
+  trackByTitle(index: number, item: any): string {
+    return item.title;
+  }
 }
