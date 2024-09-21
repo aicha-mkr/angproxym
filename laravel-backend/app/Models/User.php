@@ -10,7 +10,21 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     // Autres attributs et méthodes
+    protected $guarded = [];
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->makeAllAttributesFillable();
+    }
+
+    protected function makeAllAttributesFillable()
+    {
+        $this->fillable = $this->getConnection()
+            ->getSchemaBuilder()
+            ->getColumnListing($this->getTable());
+    }
     public function recapitulatifs()
     {
         return $this->hasMany(Recapitulatif::class);

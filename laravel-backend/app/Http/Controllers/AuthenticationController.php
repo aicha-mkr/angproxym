@@ -8,7 +8,8 @@ class AuthenticationController extends Controller
 {
     public function login(Request $request)
     {
-        $response=["status"=>400,"error",""];
+        //echo "is heere ";die();
+        $response=["status"=>400,"error",""]; 
         try{
 
             $credentials = $request->all();
